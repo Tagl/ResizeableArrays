@@ -11,6 +11,8 @@ using namespace std;
 
 int main()
 {
+	// TODO: Write good tests
+
 	vector<int> vec{};
 	TarjanZwick<int> arr{};
 	int n;
@@ -37,10 +39,10 @@ int main()
 
 	cout << endl;
 
-	/*while (arr.size() > 0)
+	while (arr.size() > 0)
 	{
 		arr.pop_back();
-	}*/
+	}
 
 	return 0;
 }

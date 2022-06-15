@@ -121,11 +121,24 @@ template<typename T>
 inline void TarjanZwick<T>::pop_back()
 {
 	_size--;
-	if (B > MIN_B && DENOMINATOR * _size < B*B*B)
+	if (B > MIN_B && DENOMINATOR * _size < num_large_blocks(B) * large_block_size(B))
 	{
 		rebuild(B / 2);
 	}
-	if (_size + 2*B <= _capacity) // TODO FIX THIS
+	bool shouldShrink = false;
+	if (_capacity <= num_large_blocks(B) * large_block_size(B))
+	{
+		shouldShrink = _size + 2 * large_block_size(B) <= _capacity;
+	}
+	else if (_capacity <= num_large_blocks(B) * large_block_size(B) + small_block_size(B)) 
+	{
+		shouldShrink = _size + large_block_size(B) + small_block_size(B) <= _capacity;
+	}
+	else
+	{
+		shouldShrink = _size + 2 * small_block_size(B) <= _capacity;
+	}
+	if (shouldShrink)
 	{
 		shrink();
 	}
@@ -233,9 +246,18 @@ inline void TarjanZwick<T>::grow()
 template<typename T>
 inline void TarjanZwick<T>::shrink()
 {
-	// TODO FIX THIS
-	delete[] data[_capacity / B - 1];
-	data[_capacity / B - 1] = nullptr;
-	_capacity -= B;
+	uint32_t totalLargeSpace = num_large_blocks(B) * large_block_size(B);
+	if (_capacity <= totalLargeSpace)
+	{
+		delete[] large[_capacity / large_block_size(B) - 1];
+		large[_capacity / large_block_size(B) - 1] = nullptr;
+		_capacity -= large_block_size(B);
+	}
+	else
+	{
+		delete[] small[(_capacity - totalLargeSpace) / small_block_size(B) - 1];
+		small[(_capacity - totalLargeSpace) / small_block_size(B) - 1] = nullptr;
+		_capacity -= small_block_size(B);
+	}
 }
 
