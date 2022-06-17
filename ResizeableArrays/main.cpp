@@ -9,39 +9,45 @@
 
 using namespace std;
 
+const constexpr int MAXN = 10000;
+
+TarjanZwick<int> arr[MAXN];
+
+/*
+* Input is of the form:
+* <n=number of arrays> <m=number of operations>
+* then m operations follow of the forms
+* append:	1 <whichArray> <item>
+* pop:		2 <whichArray>
+* print:	3 <whichArray> <arrayIndex>
+*/
+
 int main()
 {
-	// TODO: Write good tests
-
-	vector<int> vec{};
-	TarjanZwick<int> arr{};
-	int n;
-	cin >> n;
+	int n, m;
+	cin >> n >> m;
 	for (int i = 0; i < n; i++)
 	{
-		//int x;
-		//cin >> x;
-		vec.push_back(i);
-		arr.push_back(i);
-	}
-
-	for (uint64_t i = 0; i < vec.size(); i++)
-	{
-		cout << vec[i] << " ";
-	}
-	cout << endl;
-
-	for (uint64_t i = 0; i < arr.size(); i++)
-	{
-		cout << arr[i] << " ";
-		assert(arr[i] == vec[i]);
-	}
-
-	cout << endl;
-
-	while (arr.size() > 0)
-	{
-		arr.pop_back();
+		int operation, whichArray;
+		cin >> operation >> whichArray;
+		switch (operation)
+		{
+		case 1:
+			int item;
+			cin >> item;
+			arr[whichArray].push_back(item);
+			break;
+		case 2:
+			arr[whichArray].pop_back();
+			break;
+		case 3:
+			uint64_t arrayIndex;
+			cin >> arrayIndex;
+			cout << arr[whichArray][arrayIndex] << endl;
+			break;
+		default:
+			return 1;
+		}
 	}
 
 	return 0;

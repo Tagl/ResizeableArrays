@@ -34,7 +34,7 @@ private:
 template<typename T>
 inline HAT<T>::HAT()
 {
-	data = new T*[B];
+	data = new T * [B];
 	for (uint64_t i = 0; i < B; i++)
 	{
 		data[i] = nullptr;
@@ -86,7 +86,7 @@ inline void HAT<T>::pop_back()
 	{
 		rebuild(B / 2);
 	}
-	if (_size + 2*B <= _capacity )
+	if (_size + 2 * B <= _capacity)
 	{
 		shrink();
 	}
@@ -102,13 +102,13 @@ inline T& HAT<T>::at(uint64_t pos)
 template<typename T>
 inline T& HAT<T>::operator[](uint64_t pos)
 {
-	return data[pos/B][pos%B];
+	return data[pos / B][pos % B];
 }
 
 template<typename T>
 inline uint64_t HAT<T>::potential_capacity() const noexcept
 {
-	return B*B;
+	return B * B;
 }
 
 template<typename T>
@@ -126,7 +126,7 @@ inline uint64_t HAT<T>::size() const noexcept
 template<typename T>
 inline void HAT<T>::rebuild(uint64_t nextB)
 {
-	T** store = new T*[nextB];
+	T** store = new T * [nextB];
 	uint64_t nextCapacity = 0;
 	uint64_t bucket = 0;
 	for (uint64_t i = 0, ind = 0; i < nextB; i++)
